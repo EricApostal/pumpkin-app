@@ -1,0 +1,17 @@
+server_address = "0.0.0.0:25565"
+seed = ""
+max_players = 100000
+view_distance = 10
+simulation_distance = 10
+default_difficulty = "Normal"
+op_permission_level = 4
+allow_nether = true
+hardcore = false
+online_mode = true
+encryption = true
+motd = "A Blazing fast Pumpkin Server!"
+tps = 20.0
+default_gamemode = "Survival"
+scrub_ips = true
+use_favicon = true
+favicon_path = "icon.png"
