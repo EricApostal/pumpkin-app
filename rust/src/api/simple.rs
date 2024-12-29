@@ -1,4 +1,4 @@
-use pumpkin;
+use pumpkin::{self, PumpkinServer};
 
 #[flutter_rust_bridge::frb(sync)] // Synchronous mode for simplicity of the demo
 pub fn greet(name: String) -> String {
@@ -6,7 +6,8 @@ pub fn greet(name: String) -> String {
 }
 
 pub async fn run_pumpkin() {
-    pumpkin::run_server().await;
+    let server = PumpkinServer::new().await.unwrap();
+    server.start().await.unwrap();
 }
 
 #[flutter_rust_bridge::frb(init)]
