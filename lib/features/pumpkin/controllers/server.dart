@@ -62,8 +62,20 @@ class ServerController extends _$ServerController {
   Future<void> stopServer() async {
     final currentProcess = state.value?.process;
     if (currentProcess != null) {
-      currentProcess.kill();
+      currentProcess.stdin.writeln("stop");
       state = AsyncData(ServerState(status: ServerStatus.stopped));
+    }
+  }
+
+  Future<void> restartServer() async {
+    await stopServer();
+    await startServer();
+  }
+
+  Future<void> sendCommand(String command) async {
+    final currentProcess = state.value?.process;
+    if (currentProcess != null) {
+      currentProcess.stdin.writeln(command);
     }
   }
 }

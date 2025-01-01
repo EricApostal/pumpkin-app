@@ -22,7 +22,7 @@ final serverLogsProvider = StreamProvider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServerLogsRef = StreamProviderRef<String>;
-String _$serverControllerHash() => r'5ae41bf0bba591d591ed61d84842da42c790b84b';
+String _$serverControllerHash() => r'a339505c0114c1c69493a7a2907c435bb862b6b8';
 
 /// See also [ServerController].
 @ProviderFor(ServerController)
