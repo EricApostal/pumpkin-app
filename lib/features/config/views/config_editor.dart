@@ -88,7 +88,8 @@ class _ConfigEditorViewState extends ConsumerState<ConfigEditorView> {
     return Scaffold(
       backgroundColor: Theme.of(context).custom.colorTheme.foreground,
       body: ListView.builder(
-        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+        padding: EdgeInsets.only(
+            top: 16.0, bottom: MediaQuery.of(context).padding.bottom),
         itemCount: configMap.length,
         itemBuilder: (context, index) {
           String key = configMap.keys.elementAt(index);

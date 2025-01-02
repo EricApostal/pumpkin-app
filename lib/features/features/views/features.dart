@@ -277,9 +277,9 @@ class _FeaturesEditorViewState extends ConsumerState<FeaturesEditorView> {
     return Scaffold(
       backgroundColor: Theme.of(context).custom.colorTheme.foreground,
       body: ListView(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 20,
-          bottom: 20,
+          bottom: MediaQuery.of(context).padding.bottom,
         ),
         children: featureGroups.entries
             .expand((group) =>
@@ -294,8 +294,6 @@ class _FeaturesEditorViewState extends ConsumerState<FeaturesEditorView> {
     );
   }
 }
-
-// Keep the existing FeatureCard class unchanged...
 
 class FeatureCard extends StatefulWidget {
   final String configKey;

@@ -23,12 +23,9 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.fromLTRB(
-        12,
-        MediaQuery.of(context).padding.top,
-        12,
-        MediaQuery.of(context).padding.bottom + 8,
-      ),
+      padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top, 12, 0
+          // MediaQuery.of(context).padding.bottom + 8,
+          ),
       child: Column(
         children: [
           Align(
@@ -63,69 +60,73 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
 
   @override
   Widget build(BuildContext context) {
-    return TabContainer(
-      controller: _tabController,
-      tabEdge: TabEdge.top,
-      tabsStart: 0.1,
-      tabsEnd: 0.9,
-      tabMaxLength: 100,
-      borderRadius: BorderRadius.circular(24),
-      tabBorderRadius: BorderRadius.circular(10),
-      childPadding: const EdgeInsets.all(0),
-      selectedTextStyle: GoogleFonts.publicSans(
-        color: Theme.of(context).custom.colorTheme.dirtywhite,
-        fontWeight: FontWeight.w600,
-        fontSize: 15,
-      ),
-      unselectedTextStyle: GoogleFonts.publicSans(
-        color: Theme.of(context).custom.colorTheme.dirtywhite,
-        fontWeight: FontWeight.w600,
-        fontSize: 13,
-      ),
-      colors: [
-        Theme.of(context).custom.colorTheme.foreground,
-        Theme.of(context).custom.colorTheme.foreground,
-        Theme.of(context).custom.colorTheme.foreground,
-      ],
-      tabs: [
-        Text(
-          'Console',
+    return Padding(
+      padding: EdgeInsets.only(bottom: 0),
+      child: TabContainer(
+        controller: _tabController,
+        tabEdge: TabEdge.top,
+        tabsStart: 0.1,
+        tabsEnd: 0.9,
+        tabMaxLength: 100,
+        borderRadius: BorderRadius.circular(24),
+        tabBorderRadius: BorderRadius.circular(10),
+        childPadding: const EdgeInsets.all(0),
+        selectedTextStyle: GoogleFonts.publicSans(
+          color: Theme.of(context).custom.colorTheme.dirtywhite,
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
         ),
-        Text(
-          'Config',
+        unselectedTextStyle: GoogleFonts.publicSans(
+          color: Theme.of(context).custom.colorTheme.dirtywhite,
+          fontWeight: FontWeight.w600,
+          fontSize: 13,
         ),
-        Text(
-          'Features',
-        ),
-      ],
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).custom.colorTheme.background,
-            borderRadius: BorderRadius.circular(20),
+        colors: [
+          Theme.of(context).custom.colorTheme.foreground,
+          Theme.of(context).custom.colorTheme.foreground,
+          Theme.of(context).custom.colorTheme.foreground,
+        ],
+        tabs: [
+          Text(
+            'Console',
           ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Column(
-              children: [
-                Expanded(child: Console()),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ControlBar(),
-                ),
-              ],
+          Text(
+            'Config',
+          ),
+          Text(
+            'Features',
+          ),
+        ],
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).custom.colorTheme.background,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  0, 0, 0, MediaQuery.of(context).padding.bottom),
+              child: Column(
+                children: [
+                  Expanded(child: Console()),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ControlBar(),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ConfigEditorView(),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: FeaturesEditorView(),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ConfigEditorView(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: FeaturesEditorView(),
+          ),
+        ],
+      ),
     );
   }
 }
