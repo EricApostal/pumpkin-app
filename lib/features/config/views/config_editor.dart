@@ -254,8 +254,8 @@ class _ConfigCardState extends ConsumerState<ConfigCard> {
                 divisions: widget.configKey == 'view_distance' ? 30 : 20,
                 label: currentValue.round().toString(),
                 onChanged: (value) {
-                  setState(() => currentValue = value);
-                  widget.onValueChanged(value);
+                  setState(() => currentValue = value.toInt());
+                  widget.onValueChanged(value.toInt());
                 },
               ),
             ),
