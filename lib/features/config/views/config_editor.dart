@@ -62,7 +62,6 @@ class ConfigEditorView extends ConsumerStatefulWidget {
 }
 
 class _ConfigEditorViewState extends ConsumerState<ConfigEditorView> {
-  // Map to store the current values of all config fields
   final Map<String, dynamic> currentValues = {};
 
   @override
@@ -70,7 +69,19 @@ class _ConfigEditorViewState extends ConsumerState<ConfigEditorView> {
     TomlDocument? config = ref.watch(configProvider).valueOrNull;
 
     if (config == null) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: Text(
+            "No configuration file found. This is probably because the server has never been started.",
+            style: GoogleFonts.publicSans(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).custom.colorTheme.dirtywhite,
+            ),
+          ),
+        ),
+      );
     }
     var configMap = config.toMap();
 

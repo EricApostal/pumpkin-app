@@ -257,7 +257,19 @@ class _FeaturesEditorViewState extends ConsumerState<FeaturesEditorView> {
     TomlDocument? features = ref.watch(featuresProvider).valueOrNull;
 
     if (features == null) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: Text(
+            "No features file found. This is probably because the server has never been started.",
+            style: GoogleFonts.publicSans(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).custom.colorTheme.dirtywhite,
+            ),
+          ),
+        ),
+      );
     }
 
     final flatConfig = flattenToml(features.toMap());

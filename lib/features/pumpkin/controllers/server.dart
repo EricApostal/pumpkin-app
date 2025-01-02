@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pumpkin_app/features/config/controllers/config.dart';
+import 'package:pumpkin_app/features/features/controllers/features.dart';
 import 'package:pumpkin_app/features/pumpkin/models/server.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,7 +26,6 @@ class ServerController extends _$ServerController {
   }
 
   /// Starts the server if it's not already running.
-  /// Returns immediately if a server operation is in progress or if server is already running.
   Future<void> startServer() async {
     if (_isOperationInProgress) {
       print('Server operation already in progress, ignoring start request');
@@ -57,6 +58,11 @@ class ServerController extends _$ServerController {
         process: process,
         status: ServerStatus.running,
       ));
+
+      // TODO: remove this hack
+      await Future.delayed(Duration(milliseconds: 500));
+      ref.refresh(configProvider);
+      ref.refresh(featuresProvider);
     } catch (e, stackTrace) {
       print('Error starting server: $e\n$stackTrace');
       state = AsyncData(ServerState(
@@ -68,7 +74,6 @@ class ServerController extends _$ServerController {
     }
   }
 
-  /// Prepares the server environment by validating paths and permissions
   Future<ServerEnvironment> _prepareServerEnvironment() async {
     final String nativeLibDir = await platform.invokeMethod('getNativeLibDir');
     final applicationDirectory = await getApplicationDocumentsDirectory();
@@ -123,7 +128,7 @@ class ServerController extends _$ServerController {
     });
   }
 
-  /// Stops the server gracefully with timeout
+  /// Stops the server
   Future<void> stopServer() async {
     if (_isOperationInProgress) {
       print('Server operation already in progress, ignoring stop request');

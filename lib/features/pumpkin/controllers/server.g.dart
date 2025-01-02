@@ -22,7 +22,7 @@ final serverLogsProvider = StreamProvider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServerLogsRef = StreamProviderRef<String>;
-String _$serverControllerHash() => r'aed012df33b643546a1ba9538a06212dad48c016';
+String _$serverControllerHash() => r'f223dc0d43dc6ed1c3b99605bb6f2c3c985edeeb';
 
 /// A controller that manages the lifecycle of a server process.
 /// Ensures only one server instance can run at a time and provides
