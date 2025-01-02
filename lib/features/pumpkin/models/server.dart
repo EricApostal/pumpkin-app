@@ -30,3 +30,13 @@ class ServerState {
     );
   }
 }
+
+class ServerEnvironment {
+  final String executablePath;
+  final String workingDirectory;
+
+  ServerEnvironment({
+    required this.executablePath,
+    required this.workingDirectory,
+  });
+}

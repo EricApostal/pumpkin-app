@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/features/pumpkin/models/server.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'server.g.dart';
@@ -71,7 +72,7 @@ class ServerController extends _$ServerController {
   }
 
   /// Prepares the server environment by validating paths and permissions
-  Future<_ServerEnvironment> _prepareServerEnvironment() async {
+  Future<ServerEnvironment> _prepareServerEnvironment() async {
     final String nativeLibDir = await platform.invokeMethod('getNativeLibDir');
     final applicationDirectory = await getApplicationDocumentsDirectory();
     final executablePath = '$nativeLibDir/libpumpkin.so';
@@ -85,7 +86,7 @@ class ServerController extends _$ServerController {
           'Working directory does not exist: ${applicationDirectory.path}');
     }
 
-    return _ServerEnvironment(
+    return ServerEnvironment(
       executablePath: executablePath,
       workingDirectory: applicationDirectory.path,
     );
@@ -201,24 +202,12 @@ class ServerController extends _$ServerController {
       currentProcess.stdin.writeln(command);
     } catch (e, stackTrace) {
       print('Error sending command to server: $e\n$stackTrace');
-      // Optionally update state if command sending fails
     }
   }
 }
 
-/// Helper class to store server environment configuration
-class _ServerEnvironment {
-  final String executablePath;
-  final String workingDirectory;
-
-  _ServerEnvironment({
-    required this.executablePath,
-    required this.workingDirectory,
-  });
-}
-
 @Riverpod(keepAlive: true)
-Stream<String> serverLogs(ServerLogsRef ref) {
+Stream<String> serverLogs(Ref ref) {
   final controller = StreamController<String>();
   final serverState = ref.watch(serverControllerProvider);
 

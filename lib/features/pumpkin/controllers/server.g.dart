@@ -6,7 +6,7 @@ part of 'server.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serverLogsHash() => r'01cdd0748c1501ae2af137ccddec8922d9eee3dc';
+String _$serverLogsHash() => r'5a03740ad935a5de7c55b35b27c579bc902de1b0';
 
 /// See also [serverLogs].
 @ProviderFor(serverLogs)
@@ -22,7 +22,7 @@ final serverLogsProvider = StreamProvider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServerLogsRef = StreamProviderRef<String>;
-String _$serverControllerHash() => r'36bfd501e03edfe3fe331aeed5d8d6088cceaabb';
+String _$serverControllerHash() => r'aed012df33b643546a1ba9538a06212dad48c016';
 
 /// A controller that manages the lifecycle of a server process.
 /// Ensures only one server instance can run at a time and provides

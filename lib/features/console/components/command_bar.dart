@@ -28,11 +28,7 @@ class EnterKeyFormatter extends TextInputFormatter {
 }
 
 class CommandBarController {
-  VoidCallback? _focusCallback;
-
-  void attach(VoidCallback focusCallback) {
-    _focusCallback = focusCallback;
-  }
+  void attach(VoidCallback focusCallback) {}
 }
 
 class CommandBar extends ConsumerStatefulWidget {
@@ -45,7 +41,7 @@ class CommandBar extends ConsumerStatefulWidget {
 }
 
 class _CommandBarState extends ConsumerState<CommandBar> {
-  late FocusNode CommandBarFocusNode;
+  late FocusNode commandBarFocusNode;
   bool _isShiftPressed = false;
   late HorizontalDragGestureRecognizer _attachmentDragRecognizer;
   final TextEditingController textController = TextEditingController();
@@ -53,14 +49,14 @@ class _CommandBarState extends ConsumerState<CommandBar> {
   @override
   void initState() {
     super.initState();
-    CommandBarFocusNode = FocusNode();
-    widget.controller.attach(() => CommandBarFocusNode.requestFocus());
+    commandBarFocusNode = FocusNode();
+    widget.controller.attach(() => commandBarFocusNode.requestFocus());
   }
 
   @override
   void dispose() {
     textController.dispose();
-    CommandBarFocusNode.dispose();
+    commandBarFocusNode.dispose();
     _attachmentDragRecognizer.dispose();
     super.dispose();
   }
@@ -145,7 +141,7 @@ class _CommandBarState extends ConsumerState<CommandBar> {
                           focusNode: FocusNode(),
                           onKeyEvent: (event) => _handleKeyEvent(event, false),
                           child: TextField(
-                            focusNode: CommandBarFocusNode,
+                            focusNode: commandBarFocusNode,
                             controller: textController,
                             maxLines: null,
                             minLines: 1,
