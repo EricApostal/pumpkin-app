@@ -21,7 +21,7 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
         12,
         MediaQuery.of(context).padding.top,
         12,
-        MediaQuery.of(context).padding.bottom,
+        MediaQuery.of(context).padding.bottom + 8,
       ),
       child: Column(
         children: [

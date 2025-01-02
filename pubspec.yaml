@@ -43,6 +43,7 @@ dependencies:
   go_router: ^14.6.2
   flutter_svg: ^2.0.16
   path: ^1.9.0
+  flutter_launcher_icons: ^0.14.2
 
 dev_dependencies:
   flutter_test:

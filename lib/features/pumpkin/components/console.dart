@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/pumpkin/controllers/server.dart';
+import 'package:pumpkin_app/features/pumpkin/models/server.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 
 class Console extends ConsumerStatefulWidget {
@@ -52,6 +53,21 @@ class _ConsoleState extends ConsumerState<Console> {
       }
     });
 
+    ref.watch(serverControllerProvider).when(
+          data: (data) {
+            if (data.status == ServerStatus.error) {
+              _logEntries.add(data.error!);
+            }
+            if (data.status == ServerStatus.starting) {
+              _logEntries.clear();
+            }
+          },
+          loading: () {},
+          error: (error, stack) {
+            _logEntries.add(error.toString());
+          },
+        );
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).custom.colorTheme.foreground,
@@ -62,7 +78,7 @@ class _ConsoleState extends ConsumerState<Console> {
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(18),
             child: Text(
               _logEntries.join('\n'),
               textAlign: TextAlign.start,

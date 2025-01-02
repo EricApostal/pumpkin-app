@@ -56,8 +56,9 @@ class _ControlBarState extends ConsumerState<ControlBar> {
                         label: "Restart",
                         color: Theme.of(context).custom.colorTheme.background,
                         onPressed: () {
-                          print("todo: implement restart");
-                          // ref.read(serverControllerProvider.notifier).
+                          ref
+                              .read(serverControllerProvider.notifier)
+                              .restartServer();
                         })),
               ],
             ),

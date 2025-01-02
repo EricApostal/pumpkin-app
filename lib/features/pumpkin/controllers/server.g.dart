@@ -6,7 +6,7 @@ part of 'server.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serverLogsHash() => r'3f135ed311a35b773233b62069a28e7c9da12781';
+String _$serverLogsHash() => r'01cdd0748c1501ae2af137ccddec8922d9eee3dc';
 
 /// See also [serverLogs].
 @ProviderFor(serverLogs)
@@ -22,9 +22,13 @@ final serverLogsProvider = StreamProvider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServerLogsRef = StreamProviderRef<String>;
-String _$serverControllerHash() => r'a339505c0114c1c69493a7a2907c435bb862b6b8';
+String _$serverControllerHash() => r'36bfd501e03edfe3fe331aeed5d8d6088cceaabb';
 
-/// See also [ServerController].
+/// A controller that manages the lifecycle of a server process.
+/// Ensures only one server instance can run at a time and provides
+/// robust error handling and state management.
+///
+/// Copied from [ServerController].
 @ProviderFor(ServerController)
 final serverControllerProvider =
     AsyncNotifierProvider<ServerController, ServerState>.internal(
