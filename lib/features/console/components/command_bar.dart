@@ -43,7 +43,6 @@ class CommandBar extends ConsumerStatefulWidget {
 class _CommandBarState extends ConsumerState<CommandBar> {
   late FocusNode commandBarFocusNode;
   bool _isShiftPressed = false;
-  late HorizontalDragGestureRecognizer _attachmentDragRecognizer;
   final TextEditingController textController = TextEditingController();
 
   @override
@@ -57,7 +56,6 @@ class _CommandBarState extends ConsumerState<CommandBar> {
   void dispose() {
     textController.dispose();
     commandBarFocusNode.dispose();
-    _attachmentDragRecognizer.dispose();
     super.dispose();
   }
 

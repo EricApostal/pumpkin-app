@@ -44,16 +44,13 @@ class ServerController extends _$ServerController {
     try {
       state = AsyncData(state.value!.copyWith(status: ServerStatus.starting));
 
-      // Validate and prepare server environment
       final serverEnvironment = await _prepareServerEnvironment();
 
-      // Start the server process with timeout
       final process = await _startServerProcess(
         serverEnvironment.executablePath,
         serverEnvironment.workingDirectory,
       );
 
-      // Set up process monitoring
       _setupProcessListeners(process);
 
       state = AsyncData(ServerState(

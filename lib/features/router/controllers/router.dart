@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:pumpkin_app/features/pumpkin/views/console.dart';
+import 'package:pumpkin_app/features/pumpkin/views/server_home.dart';
 
 final routerController = GoRouter(
   /*

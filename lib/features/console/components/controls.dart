@@ -45,6 +45,8 @@ class _ControlBarState extends ConsumerState<ControlBar> {
                     child: ControlButton(
                         label: "Stop",
                         color: Theme.of(context).custom.colorTheme.red,
+                        textColor:
+                            Theme.of(context).custom.colorTheme.background,
                         onPressed: () {
                           ref
                               .read(serverControllerProvider.notifier)

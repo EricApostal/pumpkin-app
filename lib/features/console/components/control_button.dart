@@ -6,12 +6,14 @@ class ControlButton extends ConsumerStatefulWidget {
   final String label;
   final Color color;
   final Function onPressed;
+  final Color? textColor;
 
   const ControlButton({
     super.key,
     required this.label,
     required this.color,
     required this.onPressed,
+    this.textColor,
   });
 
   @override
@@ -34,7 +36,8 @@ class _ControlButtonState extends ConsumerState<ControlButton> {
             child: Text(
               widget.label,
               style: TextStyle(
-                color: Theme.of(context).custom.colorTheme.dirtywhite,
+                color: widget.textColor ??
+                    Theme.of(context).custom.colorTheme.dirtywhite,
                 fontWeight: FontWeight.w600,
               ),
             ),

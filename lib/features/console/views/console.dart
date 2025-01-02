@@ -73,19 +73,18 @@ class _ConsoleState extends ConsumerState<Console> {
         color: Theme.of(context).custom.colorTheme.foreground,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Padding(
-            padding: const EdgeInsets.all(18),
-            child: Text(
-              _logEntries.join('\n'),
-              textAlign: TextAlign.start,
-              style: GoogleFonts.jetBrainsMono(
-                color: Theme.of(context).custom.colorTheme.dirtywhite,
-                fontWeight: FontWeight.w600,
-              ),
+      width: double.infinity,
+      height: double.infinity,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Text(
+            _logEntries.join('\n'),
+            textAlign: TextAlign.start,
+            style: GoogleFonts.jetBrainsMono(
+              color: Theme.of(context).custom.colorTheme.dirtywhite,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

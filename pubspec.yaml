@@ -44,6 +44,8 @@ dependencies:
   flutter_svg: ^2.0.16
   path: ^1.9.0
   flutter_launcher_icons: ^0.14.2
+  tab_container: ^3.5.3
+  toml: ^0.16.0
 
 dev_dependencies:
   flutter_test:
