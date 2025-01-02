@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pumpkin_app/features/console/components/command_bar.dart';
 import 'package:pumpkin_app/features/console/components/control_button.dart';
@@ -18,6 +19,8 @@ class _ControlBarState extends ConsumerState<ControlBar> {
   @override
   Widget build(BuildContext context) {
     ServerState? serverInfo = ref.watch(serverControllerProvider).valueOrNull;
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -28,55 +31,57 @@ class _ControlBarState extends ConsumerState<ControlBar> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: ControlButton(
-                        label: "Start",
-                        color: Theme.of(context).custom.colorTheme.primary,
-                        onPressed: () {
-                          ref
-                              .read(serverControllerProvider.notifier)
-                              .startServer();
-                        })),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: ControlButton(
-                        label: "Stop",
-                        color: Theme.of(context).custom.colorTheme.red,
-                        textColor:
-                            Theme.of(context).custom.colorTheme.background,
-                        onPressed: () {
-                          ref
-                              .read(serverControllerProvider.notifier)
-                              .stopServer();
-                        })),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: ControlButton(
-                        label: "Restart",
-                        color: Theme.of(context).custom.colorTheme.background,
-                        onPressed: () {
-                          ref
-                              .read(serverControllerProvider.notifier)
-                              .restartServer();
-                        })),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Container(
-                height: 1,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .custom
-                        .colorTheme
-                        .dirtywhite
-                        .withOpacity(0.1)),
+            if (!isKeyboardVisible)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: ControlButton(
+                          label: "Start",
+                          color: Theme.of(context).custom.colorTheme.primary,
+                          onPressed: () {
+                            ref
+                                .read(serverControllerProvider.notifier)
+                                .startServer();
+                          })),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: ControlButton(
+                          label: "Stop",
+                          color: Theme.of(context).custom.colorTheme.red,
+                          textColor:
+                              Theme.of(context).custom.colorTheme.background,
+                          onPressed: () {
+                            ref
+                                .read(serverControllerProvider.notifier)
+                                .stopServer();
+                          })),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: ControlButton(
+                          label: "Restart",
+                          color: Theme.of(context).custom.colorTheme.background,
+                          onPressed: () {
+                            ref
+                                .read(serverControllerProvider.notifier)
+                                .restartServer();
+                          })),
+                ],
               ),
-            ),
+            if (!isKeyboardVisible)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Container(
+                  height: 1,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .custom
+                          .colorTheme
+                          .dirtywhite
+                          .withOpacity(0.1)),
+                ),
+              ),
             CommandBar(controller: commandBarController)
           ],
         ),

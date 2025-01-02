@@ -6,6 +6,7 @@ import 'package:pumpkin_app/features/router/controllers/router.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,12 +20,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
+    return KeyboardVisibilityProvider(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -58,6 +61,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     ));
 
     return Scaffold(
+      backgroundColor: Theme.of(context).custom.colorTheme.background,
       body: MaterialApp.router(
         theme: ref.read(darkThemeProvider),
         darkTheme: ref.read(darkThemeProvider),

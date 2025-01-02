@@ -50,6 +50,7 @@ dependencies:
   wakelock_plus: ^1.2.10
   network_info_plus: ^6.1.2
   get_ip_address: ^0.0.7
+  flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
   flutter_test:

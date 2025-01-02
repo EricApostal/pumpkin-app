@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/config/views/config_editor.dart';
@@ -24,9 +25,8 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top, 12, 0
-          // MediaQuery.of(context).padding.bottom + 8,
-          ),
+      padding:
+          EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top, 12, 0),
       child: Column(
         children: [
           Align(
@@ -61,6 +61,9 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
 
   @override
   Widget build(BuildContext context) {
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
+
     return Padding(
       padding: EdgeInsets.only(bottom: 0),
       child: TabContainer(
@@ -88,15 +91,9 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
           Theme.of(context).custom.colorTheme.foreground,
         ],
         tabs: [
-          Text(
-            'Console',
-          ),
-          Text(
-            'Config',
-          ),
-          Text(
-            'Features',
-          ),
+          Text('Console'),
+          Text('Config'),
+          Text('Features'),
         ],
         children: [
           Container(
@@ -110,8 +107,8 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
               child: Column(
                 children: [
                   Expanded(child: Console()),
-                  const SizedBox(height: 8),
-                  IpInfoBar(),
+                  if (!isKeyboardVisible) SizedBox(height: 8),
+                  if (!isKeyboardVisible) IpInfoBar(),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ControlBar(),

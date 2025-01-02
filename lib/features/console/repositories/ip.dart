@@ -5,14 +5,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'ip.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<String?> localIp(Ref ref) {
   final networkInfo = NetworkInfo();
 
   return networkInfo.getWifiIP();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<String?> publicIp(Ref ref) async {
   final ipAddress = IpAddress();
   var ip = await ipAddress.getIpAddress();
