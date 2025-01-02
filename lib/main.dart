@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/features/router/controllers/router.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 

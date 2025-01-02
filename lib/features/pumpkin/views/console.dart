@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pumpkin_app/features/pumpkin/components/command_bar.dart';
-import 'package:pumpkin_app/features/pumpkin/components/console.dart';
-import 'package:pumpkin_app/features/pumpkin/components/controls.dart';
+import 'package:pumpkin_app/features/console/components/command_bar.dart';
+import 'package:pumpkin_app/features/console/views/console.dart';
+import 'package:pumpkin_app/features/console/components/controls.dart';
 
 class ConsoleView extends ConsumerStatefulWidget {
   const ConsoleView({super.key});
