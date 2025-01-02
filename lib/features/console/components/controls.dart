@@ -64,7 +64,19 @@ class _ControlBarState extends ConsumerState<ControlBar> {
                         })),
               ],
             ),
-            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Container(
+                height: 1,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .custom
+                        .colorTheme
+                        .dirtywhite
+                        .withOpacity(0.1)),
+              ),
+            ),
             CommandBar(controller: commandBarController)
           ],
         ),

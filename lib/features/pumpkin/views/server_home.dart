@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/config/views/config_editor.dart';
 import 'package:pumpkin_app/features/console/components/command_bar.dart';
+import 'package:pumpkin_app/features/console/components/ip_info_bar.dart';
 import 'package:pumpkin_app/features/console/views/console.dart';
 import 'package:pumpkin_app/features/console/components/controls.dart';
 import 'package:pumpkin_app/features/features/views/features.dart';
@@ -109,6 +110,8 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
               child: Column(
                 children: [
                   Expanded(child: Console()),
+                  const SizedBox(height: 8),
+                  IpInfoBar(),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ControlBar(),

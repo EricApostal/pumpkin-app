@@ -48,6 +48,8 @@ dependencies:
   toml: ^0.16.0
   app_settings: ^5.1.1
   wakelock_plus: ^1.2.10
+  network_info_plus: ^6.1.2
+  get_ip_address: ^0.0.7
 
 dev_dependencies:
   flutter_test:

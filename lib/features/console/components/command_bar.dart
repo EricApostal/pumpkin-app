@@ -163,6 +163,7 @@ class _CommandBarState extends ConsumerState<CommandBar> {
                                     .custom
                                     .colorTheme
                                     .secondary,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                               border: InputBorder.none,

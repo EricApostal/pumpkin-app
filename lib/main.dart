@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:pumpkin_app/features/router/controllers/router.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 import 'package:app_settings/app_settings.dart';
