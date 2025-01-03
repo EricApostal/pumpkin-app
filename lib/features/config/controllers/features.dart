@@ -24,12 +24,6 @@ class Features extends _$Features {
     final applicationDirectory = await getApplicationDocumentsDirectory();
     final configDir = Directory('${applicationDirectory.path}/config');
 
-    // if (!await configDir.exists()) {
-    //   await configDir.create(recursive: true);
-    // }
-
-    print("writing: ${document.toString()}");
-
     final configFile = File('${configDir.path}/features.toml');
     await configFile.writeAsString(document.toString());
 

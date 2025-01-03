@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/features/config/controllers/config.dart';
-import 'package:pumpkin_app/features/features/controllers/features.dart';
+import 'package:pumpkin_app/features/config/controllers/features.dart';
 import 'package:pumpkin_app/features/pumpkin/models/server.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
