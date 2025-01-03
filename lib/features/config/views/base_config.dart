@@ -51,7 +51,7 @@ class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
 
   Widget _buildGroupHeader(SettingsGroup group) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
       child: Row(
         children: [
           if (group.icon != null) ...[

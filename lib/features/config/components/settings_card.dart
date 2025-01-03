@@ -255,6 +255,7 @@ class _SettingCardState extends ConsumerState<SettingCard> {
           option,
           style: GoogleFonts.publicSans(
             color: Theme.of(context).custom.colorTheme.dirtywhite,
+            fontWeight: FontWeight.w500,
           ),
         ),
       );

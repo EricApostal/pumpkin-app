@@ -108,11 +108,6 @@ final serverConfigGroups = [
   ),
 ];
 
-final configDropdownOptions = {
-  'default_difficulty': ['Peaceful', 'Easy', 'Normal', 'Hard'],
-  'default_gamemode': ['Survival', 'Creative', 'Adventure', 'Spectator'],
-};
-
 class ConsoleView extends ConsumerStatefulWidget {
   const ConsoleView({super.key});
 
@@ -171,7 +166,6 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
               Expanded(
                 child: ServerTabs(),
               ),
-              const SizedBox(height: 8),
             ],
           ),
         ),

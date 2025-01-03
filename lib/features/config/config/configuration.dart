@@ -168,6 +168,6 @@ final serverSettingsGroups = [
 ];
 
 final serverDropdownOptions = {
-  'default_difficulty': ['peaceful', 'easy', 'normal', 'hard'],
-  'default_gamemode': ['survival', 'creative', 'adventure', 'spectator'],
+  'default_difficulty': ['Peaceful', 'Easy', 'Normal', 'Hard'],
+  'default_gamemode': ['Survival', 'Creative', 'Adventure', 'Spectator'],
 };
