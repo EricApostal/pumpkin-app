@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,29 +33,20 @@ class BaseConfigView extends ConsumerStatefulWidget {
 class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
   final Map<String, dynamic> currentValues = {};
   final ScrollController _scrollController = ScrollController();
+  Timer? _saveDebouncer;
 
-  void _handleSave(BuildContext context, Map<String, dynamic> configMap) {
-    try {
+  void _handleValueChange(
+      String key, dynamic value, Map<String, dynamic> configMap) {
+    currentValues[key] = value;
+
+    _saveDebouncer?.cancel();
+
+    // Schedule a new save operation
+    _saveDebouncer = Timer(const Duration(milliseconds: 500), () {
       final updatedConfig = Map<String, dynamic>.from(configMap);
       updatedConfig.addAll(currentValues);
-
       widget.onSave(updatedConfig);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Configuration saved successfully'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error saving configuration: $e'),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    }
+    });
   }
 
   Widget _buildGroupHeader(SettingsGroup group) {
@@ -119,9 +111,11 @@ class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
                     currentValue: configMap[setting.key]?.toString() ??
                         setting.defaultValue?.toString() ??
                         '',
-                    onValueChanged: (value) {
-                      currentValues[setting.key] = value;
-                    },
+                    onValueChanged: (value) => _handleValueChange(
+                      setting.key,
+                      value,
+                      configMap,
+                    ),
                     dropdownOptions: widget.dropdownOptions,
                   ),
                 ))
@@ -173,29 +167,17 @@ class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
 
         final configMap = ConfigService.flattenConfig(config.toMap());
 
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Scrollbar(
+        return Scrollbar(
+          controller: _scrollController,
+          child: ListView(
             controller: _scrollController,
-            child: ListView(
-              controller: _scrollController,
-              padding: EdgeInsets.only(
-                top: 16.0,
-                bottom: MediaQuery.of(context).padding.bottom,
-              ),
-              children: widget.settingsGroups
-                  .map((group) => _buildSettingsGroup(group, configMap))
-                  .toList(),
+            padding: EdgeInsets.only(
+              top: 16.0,
+              bottom: MediaQuery.of(context).padding.bottom,
             ),
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () => _handleSave(context, configMap),
-            backgroundColor: Theme.of(context).custom.colorTheme.primary,
-            icon: const Icon(Icons.save),
-            label: Text(
-              'Save Changes',
-              style: GoogleFonts.publicSans(),
-            ),
+            children: widget.settingsGroups
+                .map((group) => _buildSettingsGroup(group, configMap))
+                .toList(),
           ),
         );
       },
@@ -214,6 +196,7 @@ class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
 
   @override
   void dispose() {
+    _saveDebouncer?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
