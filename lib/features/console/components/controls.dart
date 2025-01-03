@@ -40,11 +40,12 @@ class _ControlBarState extends ConsumerState<ControlBar> {
                           label: "Start",
                           color: Theme.of(context).custom.colorTheme.primary,
                           onPressed: () {
+                            print("STARTING!");
                             ref
                                 .read(serverControllerProvider.notifier)
                                 .startServer();
                           })),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 6),
                   Expanded(
                       child: ControlButton(
                           label: "Stop",
@@ -56,7 +57,7 @@ class _ControlBarState extends ConsumerState<ControlBar> {
                                 .read(serverControllerProvider.notifier)
                                 .stopServer();
                           })),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 6),
                   Expanded(
                       child: ControlButton(
                           label: "Restart",

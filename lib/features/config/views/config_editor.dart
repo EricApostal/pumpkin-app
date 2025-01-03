@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/config/controllers/config.dart';
+import 'package:pumpkin_app/shared/utils/platform.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 import 'package:toml/toml.dart';
 
@@ -85,32 +86,37 @@ class _ConfigEditorViewState extends ConsumerState<ConfigEditorView> {
     }
     var configMap = config.toMap();
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).custom.colorTheme.foreground,
-      body: ListView.builder(
-        padding: EdgeInsets.only(
-            top: 16.0, bottom: MediaQuery.of(context).padding.bottom),
-        itemCount: configMap.length,
-        itemBuilder: (context, index) {
-          String key = configMap.keys.elementAt(index);
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: ConfigCard(
-              configKey: key,
-              configValue: configMap[key].toString(),
-              displayName: configDisplayNames[key] ?? key,
-              inputType: configMetadata[key] ?? ConfigInputType.text,
-              onValueChanged: (value) {
-                currentValues[key] = value;
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _saveConfig(context, configMap),
-        backgroundColor: Theme.of(context).custom.colorTheme.primary,
-        child: const Icon(Icons.save),
+    return SizedBox(
+      height: isSmartwatch(context) ? 200 : null,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).custom.colorTheme.foreground,
+        body: SizedBox(
+          child: ListView.builder(
+            padding: EdgeInsets.only(
+                top: 16.0, bottom: MediaQuery.of(context).padding.bottom),
+            itemCount: configMap.length,
+            itemBuilder: (context, index) {
+              String key = configMap.keys.elementAt(index);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: ConfigCard(
+                  configKey: key,
+                  configValue: configMap[key].toString(),
+                  displayName: configDisplayNames[key] ?? key,
+                  inputType: configMetadata[key] ?? ConfigInputType.text,
+                  onValueChanged: (value) {
+                    currentValues[key] = value;
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _saveConfig(context, configMap),
+          backgroundColor: Theme.of(context).custom.colorTheme.primary,
+          child: const Icon(Icons.save),
+        ),
       ),
     );
   }

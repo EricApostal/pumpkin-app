@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/features/controllers/features.dart';
+import 'package:pumpkin_app/shared/utils/platform.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 import 'package:toml/toml.dart';
 
@@ -274,22 +275,25 @@ class _FeaturesEditorViewState extends ConsumerState<FeaturesEditorView> {
 
     final flatConfig = flattenToml(features.toMap());
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).custom.colorTheme.foreground,
-      body: ListView(
-        padding: EdgeInsets.only(
-          top: 20,
-          bottom: MediaQuery.of(context).padding.bottom,
+    return SizedBox(
+      height: isSmartwatch(context) ? 200 : null,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).custom.colorTheme.foreground,
+        body: ListView(
+          padding: EdgeInsets.only(
+            top: 20,
+            bottom: MediaQuery.of(context).padding.bottom,
+          ),
+          children: featureGroups.entries
+              .expand((group) =>
+                  buildGroupSection(group.key, group.value, flatConfig))
+              .toList(),
         ),
-        children: featureGroups.entries
-            .expand((group) =>
-                buildGroupSection(group.key, group.value, flatConfig))
-            .toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _saveFeatures(flatConfig),
-        backgroundColor: Theme.of(context).custom.colorTheme.primary,
-        child: const Icon(Icons.save),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _saveFeatures(flatConfig),
+          backgroundColor: Theme.of(context).custom.colorTheme.primary,
+          child: const Icon(Icons.save),
+        ),
       ),
     );
   }
@@ -507,6 +511,7 @@ class _FeatureCardState extends State<FeatureCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 200,
       decoration: BoxDecoration(
         color: Theme.of(context).custom.colorTheme.background,
         borderRadius: BorderRadius.circular(12),
