@@ -3,7 +3,6 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/config/controllers/config.dart';
-import 'package:pumpkin_app/features/config/models/config.dart';
 import 'package:pumpkin_app/features/config/views/configuration_editor.dart';
 import 'package:pumpkin_app/features/console/components/command_bar.dart';
 import 'package:pumpkin_app/features/console/components/ip_info_bar.dart';

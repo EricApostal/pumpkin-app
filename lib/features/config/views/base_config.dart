@@ -122,7 +122,7 @@ class _BaseConfigViewState extends ConsumerState<BaseConfigView> {
                     dropdownOptions: widget.dropdownOptions,
                   ),
                 ))
-            .toList(),
+            ,
       ],
     );
   }

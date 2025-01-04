@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/gestures.dart';
 import 'package:pumpkin_app/features/pumpkin/controllers/server.dart';
 import 'package:pumpkin_app/theme/theme.dart';
 import 'package:universal_platform/universal_platform.dart';
