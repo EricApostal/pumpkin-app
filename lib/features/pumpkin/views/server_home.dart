@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pumpkin_app/features/config/controllers/config.dart';
 import 'package:pumpkin_app/features/config/models/config.dart';
-import 'package:pumpkin_app/features/config/views/base_config.dart';
 import 'package:pumpkin_app/features/config/views/configuration_editor.dart';
 import 'package:pumpkin_app/features/console/components/command_bar.dart';
 import 'package:pumpkin_app/features/console/components/ip_info_bar.dart';
@@ -33,12 +32,21 @@ class ScopedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isSmartwatch(context)) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: child,
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: IntrinsicHeight(
+              child: SizedBox(
+                child: child,
+              ),
+            ),
+          );
+        },
       );
+    } else {
+      return child;
     }
-    return child;
   }
 }
 
@@ -51,13 +59,8 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
       body: ScopedBody(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            12,
-            MediaQuery.of(context).padding.top,
-            12,
-            0,
-          ),
+              12, MediaQuery.of(context).padding.top, 12, 0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Align(
                 alignment: Alignment.centerLeft,
@@ -92,48 +95,11 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  // Widget _buildConsoleTab(bool isKeyboardVisible) {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       color: Theme.of(context).custom.colorTheme.background,
-  //       borderRadius: BorderRadius.circular(20),
-  //     ),
-  //     child: Padding(
-  //       padding: EdgeInsets.fromLTRB(
-  //         0,
-  //         0,
-  //         0,
-  //         MediaQuery.of(context).padding.bottom,
-  //       ),
-  //       child: SingleChildScrollView(
-  //         child: Column(
-  //           // mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             isSmartwatch(context)
-  //                 ? SizedBox(
-  //                     height: 120,
-  //                     child: Console(),
-  //                   )
-  //                 : Expanded(
-  //                     child: Console(),
-  //                   ),
-  //             if (!isKeyboardVisible) const SizedBox(height: 8),
-  //             if (!isKeyboardVisible) const IpInfoBar(),
-  //             Padding(
-  //               padding: const EdgeInsets.only(top: 8.0),
-  //               child: ControlBar(),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final bool isKeyboardVisible =
         KeyboardVisibilityProvider.isKeyboardVisible(context);
+
     final configState = ref.watch(configProvider);
 
     return TabContainer(
@@ -156,7 +122,6 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
         fontSize: 13,
       ),
       colors: [
-        // Colors.pink,
         Theme.of(context).custom.colorTheme.foreground,
         Theme.of(context).custom.colorTheme.foreground,
         Theme.of(context).custom.colorTheme.foreground,
