@@ -64,7 +64,9 @@ class _ConsoleViewState extends ConsumerState<ConsoleView> {
                 child: ServerHeader(serverName: "Pumpkin Server"),
               ),
               const SizedBox(height: 8),
-              ServerTabs(),
+              Expanded(
+                child: ServerTabs(),
+              ),
             ],
           ),
         ),
@@ -90,39 +92,43 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  Widget _buildConsoleTab(bool isKeyboardVisible) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).custom.colorTheme.background,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          0,
-          0,
-          0,
-          MediaQuery.of(context).padding.bottom,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 200,
-                child: Console(),
-              ),
-              if (!isKeyboardVisible) const SizedBox(height: 8),
-              if (!isKeyboardVisible) const IpInfoBar(),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ControlBar(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildConsoleTab(bool isKeyboardVisible) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Theme.of(context).custom.colorTheme.background,
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     child: Padding(
+  //       padding: EdgeInsets.fromLTRB(
+  //         0,
+  //         0,
+  //         0,
+  //         MediaQuery.of(context).padding.bottom,
+  //       ),
+  //       child: SingleChildScrollView(
+  //         child: Column(
+  //           // mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             isSmartwatch(context)
+  //                 ? SizedBox(
+  //                     height: 120,
+  //                     child: Console(),
+  //                   )
+  //                 : Expanded(
+  //                     child: Console(),
+  //                   ),
+  //             if (!isKeyboardVisible) const SizedBox(height: 8),
+  //             if (!isKeyboardVisible) const IpInfoBar(),
+  //             Padding(
+  //               padding: const EdgeInsets.only(top: 8.0),
+  //               child: ControlBar(),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +156,7 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
         fontSize: 13,
       ),
       colors: [
+        // Colors.pink,
         Theme.of(context).custom.colorTheme.foreground,
         Theme.of(context).custom.colorTheme.foreground,
         Theme.of(context).custom.colorTheme.foreground,
@@ -160,7 +167,34 @@ class _ServerTabsState extends ConsumerState<ServerTabs>
         Text('Features'),
       ],
       children: [
-        _buildConsoleTab(isKeyboardVisible),
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).custom.colorTheme.background,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                0, 0, 0, MediaQuery.of(context).padding.bottom),
+            child: Column(
+              children: [
+                (!isSmartwatch(context))
+                    ? Expanded(
+                        child: Console(),
+                      )
+                    : SizedBox(
+                        height: 120,
+                        child: Console(),
+                      ),
+                if (!isKeyboardVisible) SizedBox(height: 8),
+                if (!isKeyboardVisible) IpInfoBar(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ControlBar(),
+                ),
+              ],
+            ),
+          ),
+        ),
         ServerConfigEditorView(),
         FeaturesView(),
       ],
