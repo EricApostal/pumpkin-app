@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:pumpkin_app/src/rust/api/simple.dart';
+import 'package:pumpkin_app/rust/src/api/simple.dart';
+import 'package:pumpkin_app/rust/src/third_party/rcon_client.dart';
 import 'package:rcon/rcon.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toml/toml.dart';
@@ -33,13 +34,17 @@ class ServerController extends _$ServerController {
       await file.writeAsString(newDocument.toString());
 
       startServer(appDir: directory.path);
-      await Future.delayed(Duration(milliseconds: 5000));
+      await Future.delayed(Duration(milliseconds: 7000));
       print("making client and logging in...");
-      final client = await Client.create("127.0.0.1", 25575);
-      print("made client using rcon client");
+      final client = await RconClient.newInstance(
+        config: RCONConfig(url: "127.0.0.1:25575"),
+      );
       print("logging in");
-      final success = client.login("pumpkin");
-      print(success);
+      final authResult = await client.auth(
+        auth: await AuthRequest.newInstance(password: "pumpkin"),
+      );
+      print("success?");
+      print(authResult);
       // // final login = rconClient.login("");
       // // print(login);
       // print("logged in");

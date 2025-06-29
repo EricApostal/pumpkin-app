@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pumpkin_app/features/navigator/controller/router.dart';
-import 'package:pumpkin_app/src/rust/frb_generated.dart';
+import 'package:pumpkin_app/rust/src/frb_generated.dart';
 
 Future<void> main() async {
   await RustLib.init();
