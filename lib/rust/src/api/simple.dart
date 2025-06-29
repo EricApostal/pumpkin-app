@@ -6,5 +6,17 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `new`, `set_sink`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `CustomLogger`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `enabled`, `flush`, `log`
+
+Stream<String> setupLogStream() =>
+    RustLib.instance.api.crateApiSimpleSetupLogStream();
+
+Future<void> initLogger() => RustLib.instance.api.crateApiSimpleInitLogger();
+
 Future<void> startServer({required String appDir}) =>
     RustLib.instance.api.crateApiSimpleStartServer(appDir: appDir);
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SetLoggerError>>
+abstract class SetLoggerError implements RustOpaqueInterface {}

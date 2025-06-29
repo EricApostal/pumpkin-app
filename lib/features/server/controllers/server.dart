@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/rust/src/api/simple.dart';
-import 'package:pumpkin_app/rust/src/third_party/rcon_client.dart';
-import 'package:rcon/rcon.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toml/toml.dart';
 
@@ -25,7 +23,6 @@ class ServerController extends _$ServerController {
 
       final config = document.toMap();
 
-      print("enabling rcon!");
       // we need to force enable rcon for the console
       config["networking"]["rcon"]["enabled"] = true;
       config["networking"]["rcon"]["password"] = "pumpkin";
@@ -33,18 +30,27 @@ class ServerController extends _$ServerController {
       final file = File(configPath);
       await file.writeAsString(newDocument.toString());
 
+      print("Starting server!");
+      final logStream = setupLogStream();
+      logStream.listen((logMessage) {
+        print('Log from Rust: $logMessage');
+        // Handle the log message, e.g., display in UI or store in memory
+      });
       startServer(appDir: directory.path);
-      await Future.delayed(Duration(milliseconds: 7000));
-      print("making client and logging in...");
-      final client = await RconClient.newInstance(
-        config: RCONConfig(url: "127.0.0.1:25575"),
-      );
-      print("logging in");
-      final authResult = await client.auth(
-        auth: await AuthRequest.newInstance(password: "pumpkin"),
-      );
-      print("success?");
-      print(authResult);
+      // await logFile.create();
+
+      // await Future.delayed(Duration(milliseconds: 7000));
+      // print("making client and logging in...");
+      // final client = await RconClient.newInstance(
+      //   config: RCONConfig(url: "127.0.0.1:25575"),
+      // );
+      // print("logging in");
+      // final authResult = await client.auth(
+      //   auth: await AuthRequest.newInstance(password: "pumpkin"),
+      // );
+      // print("success?");
+      // print(await authResult.isSuccess());
+
       // // final login = rconClient.login("");
       // // print(login);
       // print("logged in");
