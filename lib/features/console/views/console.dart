@@ -11,6 +11,11 @@ class ConsoleScreen extends ConsumerStatefulWidget {
 class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container());
+    return Scaffold(
+      appBar: AppBar(title: Text("Console")),
+      body: Container(
+        child: Padding(padding: EdgeInsets.all(12), child: Text("yoo")),
+      ),
+    );
   }
 }

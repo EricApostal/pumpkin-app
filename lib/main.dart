@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pumpkin_app/features/navigator/views/navigation_scope.dart';
+import 'package:pumpkin_app/features/navigator/controller/router.dart';
 import 'package:pumpkin_app/src/rust/frb_generated.dart';
 
 Future<void> main() async {
@@ -15,8 +15,9 @@ class PumpkinApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final seedColor = Color.fromARGB(255, 43, 102, 191);
 
-    return MaterialApp(
+    return MaterialApp.router(
       themeMode: ThemeMode.dark,
+      routerConfig: routerController,
 
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -26,8 +27,6 @@ class PumpkinApp extends StatelessWidget {
         textTheme: TextTheme(),
         useMaterial3: true,
       ),
-
-      home: NavigationScope(child: Center(child: Text("balls"))),
     );
   }
 }

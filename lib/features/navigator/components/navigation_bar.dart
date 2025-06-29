@@ -81,38 +81,41 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.15)
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedScale(
-              scale: isSelected ? 1.1 : 1.0,
-              duration: const Duration(milliseconds: 200),
-              child: Icon(
-                item.icon,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                size: 24,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedScale(
+                scale: isSelected ? 1.1 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  item.icon,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                  size: 24,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              child: Text(item.label),
-            ),
-          ],
+              // const SizedBox(height: 4),
+              // AnimatedDefaultTextStyle(
+              //   duration: const Duration(milliseconds: 200),
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              //     color: isSelected
+              //         ? Theme.of(context).colorScheme.primary
+              //         : Theme.of(context).colorScheme.onSurfaceVariant,
+              //   ),
+              //   child: Text(item.label),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -131,21 +134,23 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
                 spreadRadius: 0,
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
                 spreadRadius: 0,
               ),
             ],
             border: Border.all(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
-              width: 1,
+              color: Theme.of(
+                context,
+              ).colorScheme.outline.withValues(alpha: 0.2),
+              width: 2,
             ),
           ),
           child: ClipRRect(
