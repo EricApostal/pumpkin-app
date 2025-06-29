@@ -6,8 +6,5 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-String greet({required String name}) =>
-    RustLib.instance.api.crateApiSimpleGreet(name: name);
-
 Future<void> startServer({required String appDir}) =>
     RustLib.instance.api.crateApiSimpleStartServer(appDir: appDir);
