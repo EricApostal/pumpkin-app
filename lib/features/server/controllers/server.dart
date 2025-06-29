@@ -27,6 +27,7 @@ class ServerController extends _$ServerController {
       print("enabling rcon!");
       // we need to force enable rcon for the console
       config["networking"]["rcon"]["enabled"] = true;
+      config["networking"]["rcon"]["password"] = "pumpkin";
       TomlDocument newDocument = TomlDocument.fromMap(config);
       final file = File(configPath);
       await file.writeAsString(newDocument.toString());
@@ -35,8 +36,10 @@ class ServerController extends _$ServerController {
       await Future.delayed(Duration(milliseconds: 5000));
       print("making client and logging in...");
       final client = await Client.create("127.0.0.1", 25575);
-
       print("made client using rcon client");
+      print("logging in");
+      final success = client.login("pumpkin");
+      print(success);
       // // final login = rconClient.login("");
       // // print(login);
       // print("logged in");
