@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pumpkin_app/src/rust/api/simple.dart';
 import 'package:pumpkin_app/src/rust/frb_generated.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,13 +23,14 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: OutlinedButton(
             onPressed: () async {
+              HapticFeedback.lightImpact();
               print("starting server!");
               final appDirectory = await getApplicationDocumentsDirectory();
-              print("Items = ${appDirectory.listSync()}");
+              final path = "${appDirectory.path}/server";
+              final directory = await Directory(path).create();
+              print("Items = ${directory.listSync()}");
 
-              final directory = await Directory(appDirectory.path).create();
-
-              await startServer(appDir: directory.path);
+              // await startServer(appDir: path);
             },
             child: Text("Start Server"),
           ),
