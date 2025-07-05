@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class GlobalNavigationBar extends ConsumerStatefulWidget {
   const GlobalNavigationBar({super.key});
@@ -18,16 +19,16 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
   late Animation<double> _scaleAnimation;
 
   final List<NavItem> navItems = [
-    NavItem(Icons.terminal_rounded, 'Console'),
-    NavItem(Icons.folder_rounded, 'Files'),
-    NavItem(Icons.settings_rounded, 'Config'),
-    NavItem(Icons.star_rounded, 'Features'),
+    NavItem(Icons.terminal_rounded, 'Console', '/console'),
+    NavItem(Icons.folder_rounded, 'Files', '/files'),
+    NavItem(Icons.settings_rounded, 'Config', '/config'),
+    NavItem(Icons.star_rounded, 'Features', '/features'),
   ];
 
   @override
   void initState() {
     super.initState();
-    currentPage = 0;
+    currentPage = 0; // Default to first tab
 
     tabController = TabController(
       length: navItems.length,
@@ -54,10 +55,31 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
     _animationController.forward();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _syncCurrentPageWithRoute();
+  }
+
   void changePage(int newPage) {
     setState(() {
       currentPage = newPage;
     });
+  }
+
+  void _syncCurrentPageWithRoute() {
+    final currentRoute = GoRouterState.of(context).uri.path;
+    for (int i = 0; i < navItems.length; i++) {
+      if (navItems[i].route == currentRoute) {
+        if (currentPage != i) {
+          setState(() {
+            currentPage = i;
+          });
+          tabController.animateTo(i);
+        }
+        break;
+      }
+    }
   }
 
   @override
@@ -74,6 +96,7 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
       onTap: () {
         HapticFeedback.lightImpact();
         changePage(index);
+        context.go(navItems[index].route);
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
@@ -181,6 +204,7 @@ class _GlobalNavigationBarState extends ConsumerState<GlobalNavigationBar>
 class NavItem {
   final IconData icon;
   final String label;
+  final String route;
 
-  NavItem(this.icon, this.label);
+  NavItem(this.icon, this.label, this.route);
 }

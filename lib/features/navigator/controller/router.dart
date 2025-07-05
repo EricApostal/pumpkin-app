@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:pumpkin_app/features/console/views/console.dart';
+import 'package:pumpkin_app/features/files/views/file_browser.dart';
 import 'package:pumpkin_app/features/navigator/views/navigation_scope.dart';
 
 final routerController = GoRouter(
@@ -15,6 +16,10 @@ final routerController = GoRouter(
       builder: (context, state, child) => NavigationScope(child: child),
       routes: [
         GoRoute(path: "/console", builder: (context, state) => ConsoleScreen()),
+        GoRoute(
+          path: "/files",
+          builder: (context, state) => FileBrowserScreen(),
+        ),
       ],
     ),
   ],

@@ -24,7 +24,6 @@ class PumpkinApp extends StatelessWidget {
           seedColor: seedColor,
           brightness: Brightness.dark,
         ),
-        textTheme: TextTheme(),
         useMaterial3: true,
       ),
     );
