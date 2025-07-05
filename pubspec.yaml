@@ -41,9 +41,12 @@ dependencies:
   flutter_floating_bottom_bar: ^1.3.0
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
-  go_router: ^15.2.4
+  go_router: ^16.0.0
   rcon: ^1.0.0
   toml: ^0.16.0
+  logger: ^2.6.0
+  flutter_logcat: ^1.3.1
+  flutter_logcat_monitor: ^1.0.2
   # flutter_rust_bridge:
   #   git:
   #     url: https://github.com/fzyzcjy/flutter_rust_bridge.git

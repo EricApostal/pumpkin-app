@@ -55,13 +55,13 @@ pub fn setup_log_stream(sink: StreamSink<String>) {
 
 pub fn init_logger() -> Result<(), SetLoggerError> {
     log::set_logger(&LOGGER)?;
-    log::set_max_level(log::LevelFilter::Info); // Set the maximum log level; adjust as needed
+    log::set_max_level(log::LevelFilter::Info);
     Ok(())
 }
 
 pub async fn start_server(app_dir: String) {
     env::set_current_dir(&app_dir);
-    init_logger().expect("Failed to initialize logger"); // Set up the logger
+    // init_logger().expect("Failed to initialize logger"); // Set up the logger
     let pumpkin_server = pumpkin::PumpkinServer::new().await;
     pumpkin_server.init_plugins().await;
     pumpkin_server.start().await;

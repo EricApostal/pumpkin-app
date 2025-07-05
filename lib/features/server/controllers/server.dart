@@ -1,9 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_logcat_monitor/flutter_logcat_monitor.dart';
+import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/rust/src/api/simple.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toml/toml.dart';
+import 'dart:developer' as developer;
+import 'package:flutter_logcat/flutter_logcat.dart';
 
 part 'server.g.dart';
 
@@ -18,12 +24,18 @@ class ServerController extends _$ServerController {
     );
     await directory.create();
     final configPath = '${directory.path}/config/features.toml';
+
+    FlutterLogcatMonitor.addListen((log) {
+      if ((log as String).contains("pumpkin::")) {
+        final text = log.split("pumpkin::")[1];
+      }
+    });
+    await FlutterLogcatMonitor.startMonitor("*");
     try {
       TomlDocument document = await TomlDocument.load(configPath);
 
       final config = document.toMap();
 
-      // we need to force enable rcon for the console
       config["networking"]["rcon"]["enabled"] = true;
       config["networking"]["rcon"]["password"] = "pumpkin";
       TomlDocument newDocument = TomlDocument.fromMap(config);
@@ -31,40 +43,18 @@ class ServerController extends _$ServerController {
       await file.writeAsString(newDocument.toString());
 
       print("Starting server!");
-      final logStream = setupLogStream();
-      logStream.listen((logMessage) {
-        print('Log from Rust: $logMessage');
-        // Handle the log message, e.g., display in UI or store in memory
-      });
       startServer(appDir: directory.path);
-      // await logFile.create();
-
-      // await Future.delayed(Duration(milliseconds: 7000));
-      // print("making client and logging in...");
-      // final client = await RconClient.newInstance(
-      //   config: RCONConfig(url: "127.0.0.1:25575"),
-      // );
-      // print("logging in");
-      // final authResult = await client.auth(
-      //   auth: await AuthRequest.newInstance(password: "pumpkin"),
-      // );
-      // print("success?");
-      // print(await authResult.isSuccess());
-
-      // // final login = rconClient.login("");
-      // // print(login);
-      // print("logged in");
-
-      // rconClient.listen((e) {
-      //   print("eventy");
-      // });
-
-      // print(
-      //   rconClient.send(Message.create(rconClient, PacketType.command, "help")),
-      // );
     } catch (e, st) {
       print(e);
       print(st);
     }
+  }
+}
+
+@Riverpod(keepAlive: true)
+class ServerLogs extends _$ServerLogs {
+  @override
+  List<String> build() {
+    return [];
   }
 }
