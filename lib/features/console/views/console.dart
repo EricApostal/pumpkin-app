@@ -106,26 +106,56 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                               ),
                             ),
                           )
-                        : ListView.builder(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.all(24),
-                            itemCount: logs.length,
-                            itemBuilder: (context, index) {
-                              final log = logs[index];
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 1,
+                        : Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  padding: const EdgeInsets.all(24),
+                                  itemCount: logs.length,
+                                  itemBuilder: (context, index) {
+                                    final log = logs[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 1,
+                                      ),
+                                      child: SelectableText(
+                                        log,
+                                        style: TextStyle(
+                                          fontFamily: 'monospace',
+                                          fontSize: 12,
+                                          color: _getLogColor(log),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                child: SelectableText(
-                                  log,
-                                  style: TextStyle(
-                                    fontFamily: 'monospace',
-                                    fontSize: 12,
-                                    color: _getLogColor(log),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.surface,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      hintText: 'Send to console',
+                                    ),
+                                    onSubmitted: (command) async {
+                                      await ref
+                                          .read(
+                                            serverControllerProvider.notifier,
+                                          )
+                                          .sendCommand(command);
+                                    },
                                   ),
                                 ),
-                              );
-                            },
+                              ),
+                            ],
                           );
                   },
                   loading: () =>

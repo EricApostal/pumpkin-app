@@ -14,6 +14,14 @@ class ServerController extends _$ServerController {
   @override
   void build() {}
 
+  Future<void> stop() async {
+    await stopServer();
+  }
+
+  Future<void> sendCommand(String command) async {
+    await runInConsole(command: command);
+  }
+
   Future<void> start() async {
     final directory = Directory(
       "${(await getApplicationDocumentsDirectory()).path}/server",

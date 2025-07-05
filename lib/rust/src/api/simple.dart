@@ -8,3 +8,23 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 Future<void> startServer({required String appDir}) =>
     RustLib.instance.api.crateApiSimpleStartServer(appDir: appDir);
+
+Future<ArcPumpkinServer?> getServer() =>
+    RustLib.instance.api.crateApiSimpleGetServer();
+
+Future<bool> isServerRunning() =>
+    RustLib.instance.api.crateApiSimpleIsServerRunning();
+
+Future<void> runInConsole({required String command}) =>
+    RustLib.instance.api.crateApiSimpleRunInConsole(command: command);
+
+Future<void> stopServer() => RustLib.instance.api.crateApiSimpleStopServer();
+
+Future<String?> getServerInfo() =>
+    RustLib.instance.api.crateApiSimpleGetServerInfo();
+
+Future<int> getPlayerCount() =>
+    RustLib.instance.api.crateApiSimpleGetPlayerCount();
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < PumpkinServer >>>
+abstract class ArcPumpkinServer implements RustOpaqueInterface {}
