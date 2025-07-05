@@ -33,6 +33,7 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
   Widget build(BuildContext context) {
     final padding = MediaQuery.paddingOf(context);
     final logsAsyncValue = ref.watch(serverLogsProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +49,7 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(bottom: padding.bottom + 90),
+        padding: EdgeInsets.only(bottom: padding.bottom + 100),
         child: Column(
           children: [
             Container(
@@ -57,7 +58,11 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.surface,
+                      ),
                       onPressed: () async {
                         HapticFeedback.lightImpact();
                         await ref
@@ -81,9 +86,9 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade300),
+                  color: theme.colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(24),
+                  // border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: logsAsyncValue.when(
                   data: (logs) {
@@ -103,7 +108,7 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                           )
                         : ListView.builder(
                             controller: _scrollController,
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(24),
                             itemCount: logs.length,
                             itemBuilder: (context, index) {
                               final log = logs[index];

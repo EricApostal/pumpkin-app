@@ -13,7 +13,7 @@ class PumpkinApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seedColor = Color.fromARGB(255, 43, 102, 191);
+    final seedColor = Color.fromARGB(255, 255, 141, 11);
 
     return MaterialApp.router(
       themeMode: ThemeMode.dark,

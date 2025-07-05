@@ -25,7 +25,11 @@ class ServerController extends _$ServerController {
 
     FlutterLogcatMonitor.addListen((log) {
       if ((log as String).contains("pumpkin::")) {
-        final text = log.split("pumpkin::")[1];
+        final text = log
+            .split("pumpkin::")[1]
+            .replaceFirst("server: ", '')
+            .replaceFirst("server::conn..: ", '')
+            .replaceFirst("server::key_..: ", '');
         logsNotifier.addLog(text);
       }
     });
