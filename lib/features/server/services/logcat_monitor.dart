@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-/// A service that monitors logcat output in a separate isolate (Android only)
+/// Monitors logcat output in a separate isolate for Android
 class LogcatMonitor {
   static LogcatMonitor? _instance;
   static LogcatMonitor get instance => _instance ??= LogcatMonitor._();
@@ -15,13 +15,10 @@ class LogcatMonitor {
   ReceivePort? _receivePort;
   StreamController<String>? _logController;
 
-  /// Stream of logcat messages
   Stream<String> get logStream =>
       _logController?.stream ?? const Stream.empty();
 
-  /// Start monitoring logcat with the given options
   Future<bool> startMonitor(String options) async {
-    // Only works on Android
     if (!Platform.isAndroid) {
       print(
         'LogcatMonitor: Not running on Android, logcat monitoring disabled',
@@ -37,7 +34,6 @@ class LogcatMonitor {
       _receivePort = ReceivePort();
       _logController = StreamController<String>.broadcast();
 
-      // Listen to messages from the isolate
       _receivePort!.listen((message) {
         if (message is String) {
           _logController?.add(message);
@@ -46,7 +42,6 @@ class LogcatMonitor {
         }
       });
 
-      // Start the isolate
       _isolate = await Isolate.spawn(
         _logcatIsolateEntry,
         _LogcatIsolateData(sendPort: _receivePort!.sendPort, options: options),
@@ -59,7 +54,6 @@ class LogcatMonitor {
     }
   }
 
-  /// Stop monitoring logcat
   Future<void> stopMonitor() async {
     if (_isolate != null) {
       _isolate!.kill(priority: Isolate.immediate);
@@ -78,7 +72,6 @@ class LogcatMonitor {
     _logController = null;
   }
 
-  /// Run a one-time logcat command and return the output
   Future<String> runLogcat(String options) async {
     if (!Platform.isAndroid) {
       return 'LogcatMonitor: Not available on this platform';
@@ -93,7 +86,6 @@ class LogcatMonitor {
   }
 }
 
-/// Data structure for passing information to the isolate
 class _LogcatIsolateData {
   final SendPort sendPort;
   final String options;
@@ -101,9 +93,7 @@ class _LogcatIsolateData {
   _LogcatIsolateData({required this.sendPort, required this.options});
 }
 
-/// Entry point for the logcat monitoring isolate
 void _logcatIsolateEntry(_LogcatIsolateData data) async {
-  // Only works on Android
   if (!Platform.isAndroid) {
     data.sendPort.send('LogcatMonitor: Not running on Android');
     return;
@@ -112,10 +102,8 @@ void _logcatIsolateEntry(_LogcatIsolateData data) async {
   final receivePort = ReceivePort();
   Process? logcatProcess;
 
-  // Send our receive port back to the main isolate
   data.sendPort.send(receivePort.sendPort);
 
-  // Listen for stop commands
   receivePort.listen((message) {
     if (message == 'stop') {
       logcatProcess?.kill();
@@ -124,17 +112,14 @@ void _logcatIsolateEntry(_LogcatIsolateData data) async {
   });
 
   try {
-    // Start the logcat process
     final args = data.options.isEmpty ? <String>[] : data.options.split(' ');
     logcatProcess = await Process.start('logcat', args);
 
-    // Listen to stdout
     logcatProcess.stdout
         .transform(const SystemEncoding().decoder)
         .transform(const LineSplitter())
         .listen(
           (line) {
-            // Add small delay to prevent overwhelming the main thread
             Future.delayed(const Duration(milliseconds: 10), () {
               data.sendPort.send(line);
             });
@@ -147,7 +132,6 @@ void _logcatIsolateEntry(_LogcatIsolateData data) async {
           },
         );
 
-    // Listen to stderr
     logcatProcess.stderr
         .transform(const SystemEncoding().decoder)
         .transform(const LineSplitter())
@@ -155,7 +139,6 @@ void _logcatIsolateEntry(_LogcatIsolateData data) async {
           data.sendPort.send('STDERR: $line');
         });
 
-    // Wait for the process to complete
     final exitCode = await logcatProcess.exitCode;
     data.sendPort.send('logcat process exited with code: $exitCode');
   } catch (e) {
