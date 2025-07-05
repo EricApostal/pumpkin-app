@@ -299,22 +299,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
-  flutter_logcat:
-    dependency: "direct main"
-    description:
-      name: flutter_logcat
-      sha256: "06d0731dfae6916f04b2c80edf36adc571f185042cedabd70ad98420c46c52ad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.1"
-  flutter_logcat_monitor:
-    dependency: "direct main"
-    description:
-      name: flutter_logcat_monitor
-      sha256: "9aa1dbf8152731e5f62593b9b025dd955e336f8451a4fa2b8426fd42ffd39fc9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   flutter_riverpod:
     dependency: "direct main"
     description:

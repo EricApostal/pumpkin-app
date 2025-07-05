@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_logcat_monitor/flutter_logcat_monitor.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pumpkin_app/features/server/services/logcat_monitor.dart';
 import 'package:pumpkin_app/rust/src/api/simple.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toml/toml.dart';
@@ -11,10 +11,14 @@ part 'server.g.dart';
 
 @Riverpod(keepAlive: true)
 class ServerController extends _$ServerController {
+  StreamSubscription<String>? _logcatSubscription;
+
   @override
   void build() {}
 
   Future<void> stop() async {
+    await _logcatSubscription?.cancel();
+    await LogcatMonitor.instance.stopMonitor();
     await stopServer();
   }
 
@@ -31,8 +35,11 @@ class ServerController extends _$ServerController {
 
     final logsNotifier = ref.read(serverLogsProvider.notifier);
 
-    FlutterLogcatMonitor.addListen((log) {
-      if ((log as String).contains("pumpkin::")) {
+    final logcatMonitor = LogcatMonitor.instance;
+    await logcatMonitor.startMonitor("*");
+
+    _logcatSubscription = logcatMonitor.logStream.listen((log) {
+      if (log.contains("pumpkin::")) {
         final text = log
             .split("pumpkin::")[1]
             .replaceFirst("server: ", '')
@@ -41,7 +48,6 @@ class ServerController extends _$ServerController {
         logsNotifier.addLog(text);
       }
     });
-    await FlutterLogcatMonitor.startMonitor("*");
     try {
       TomlDocument document = await TomlDocument.load(configPath);
 
