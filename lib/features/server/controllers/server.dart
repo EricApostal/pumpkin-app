@@ -45,7 +45,14 @@ class ServerController extends _$ServerController {
     _logSubscription = FlutterNativeLogs().logStream.listen((
       NativeLogMessage message,
     ) {
-      logsNotifier.addLog(message.message);
+      final cleaned = message.message
+          .replaceFirst("  ", " ")
+          .replaceFirst("  ", " ");
+      final split = cleaned.split(" ");
+      if (split[5].contains("pumpkin") && (split[4] == "I")) {
+        logsNotifier.addLog(split.sublist(6).join(" "));
+        logsNotifier.addLog(cleaned);
+      }
     });
 
     try {
