@@ -49,9 +49,9 @@ class ServerController extends _$ServerController {
           .replaceFirst("  ", " ")
           .replaceFirst("  ", " ");
       final split = cleaned.split(" ");
-      if (split[5].contains("pumpkin") && (split[4] == "I")) {
+      final typeValidated = (split[4] == "I");
+      if (split[5].contains("pumpkin") && typeValidated) {
         logsNotifier.addLog(split.sublist(6).join(" "));
-        logsNotifier.addLog(cleaned);
       }
     });
 
