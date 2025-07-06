@@ -70,7 +70,7 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                             .read(serverControllerProvider.notifier)
                             .start();
                       },
-                      child: const Text("Start Server"),
+                      child: const Text("Stop Server"),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -163,7 +163,8 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   SelectableText(
-                                    data.publicIp ?? 'Not available',
+                                    "[redacted]",
+                                    // data.publicIp ?? 'Not available',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontFamily: 'monospace',
                                       fontWeight: FontWeight.w500,
@@ -275,6 +276,7 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                                       ),
                                       hintText: 'Send to console',
                                       hintStyle: TextStyle(
+                                        fontSize: 14,
                                         color: theme.colorScheme.onSurface
                                             .withValues(alpha: 0.5),
                                       ),

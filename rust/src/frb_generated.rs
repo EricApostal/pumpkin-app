@@ -646,5 +646,6 @@ mod web {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < PumpkinServer >>>::decrement_strong_count(ptr as _);
     }
 }
+use pumpkin::PumpkinServer;
 #[cfg(target_family = "wasm")]
 pub use web::*;

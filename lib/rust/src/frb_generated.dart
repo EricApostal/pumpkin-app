@@ -29,6 +29,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
       api: api,
       handler: handler,
       externalLibrary: externalLibrary,
+      forceSameCodegenVersion: forceSameCodegenVersion,
     );
   }
 

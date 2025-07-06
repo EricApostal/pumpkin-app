@@ -5,7 +5,6 @@ import 'package:flutter_native_log_handler/flutter_native_logs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pumpkin_app/rust/src/api/simple.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:toml/toml.dart';
 
 part 'server.g.dart';
 
