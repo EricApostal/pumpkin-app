@@ -12,6 +12,12 @@ final routerController = GoRouter(
   */
   initialLocation: '/console',
   routes: [
+    GoRoute(
+      path: "/",
+      redirect: (context, state) {
+        return "/console";
+      },
+    ),
     ShellRoute(
       builder: (context, state, child) => NavigationScope(child: child),
       routes: [

@@ -47,6 +47,7 @@ dependencies:
   logger: ^2.6.0
   network_info_plus: ^6.1.4
   http: ^1.1.0
+  flutter_native_log_handler: ^1.1.1
   # flutter_rust_bridge:
   #   git:
   #     url: https://github.com/fzyzcjy/flutter_rust_bridge.git

@@ -269,15 +269,15 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                                     borderRadius: BorderRadius.circular(48),
                                   ),
                                   child: TextField(
-                                    style: TextStyle(
-                                      color: theme.colorScheme.onSurface
-                                          .withValues(alpha: 0.1),
-                                    ),
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: 'Send to console',
+                                      hintStyle: TextStyle(
+                                        color: theme.colorScheme.onSurface
+                                            .withValues(alpha: 0.5),
+                                      ),
                                     ),
                                     onSubmitted: (command) async {
                                       await ref

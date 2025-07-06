@@ -1,16 +1,11 @@
-# frb_testing
+# Pumpkin Mobile
+Implementation of the [Pumpkin](https://github.com/Pumpkin-MC/Pumpkin) Rust-based Minecraft server.
 
-A new Flutter project.
+## How it works
+- Connects to pumpkin over FFI
+- Each update will automatically link the latest version of Pumpkin from master
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Limitations
+- There is no plugin support at the moment; loading them might be quite tricky due to SELinux policies (unsure / untested)
+- You will not be able to change Pumpkin builds / versions. It is tied to the app version and this will not change due to much stricter SELinux policies (executables cannot be downlaoded at runtime past API version 29)
+- There is currently no system from running the server in the background, so your phone screen must be on and the app must be focused. This is an easy fix.
