@@ -1,6 +1,8 @@
 use pumpkin::{self, command, PumpkinServer as InternalPumpkinServer};
 use std::env;
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
+
+static PLUGINS_INITIALIZED: OnceLock<()> = OnceLock::new();
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {
@@ -18,7 +20,13 @@ impl PumpkinServer {
         }
 
         let internal_server = Arc::new(InternalPumpkinServer::new().await);
-        internal_server.init_plugins().await;
+
+        // Only initialize plugins once globally
+        // PLUGINS_INITIALIZED.get_or_init(|| {
+        //     futures::executor::block_on(async {
+        //         internal_server.init_plugins().await;
+        //     });
+        // });
 
         Ok(Self {
             internal: internal_server,
