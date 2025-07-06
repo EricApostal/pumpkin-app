@@ -2,8 +2,6 @@ use pumpkin::{self, command, PumpkinServer as InternalPumpkinServer};
 use std::env;
 use std::sync::{Arc, OnceLock};
 
-static PLUGINS_INITIALIZED: OnceLock<()> = OnceLock::new();
-
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {
     flutter_rust_bridge::setup_default_user_utils();

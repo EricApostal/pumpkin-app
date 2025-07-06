@@ -20,10 +20,11 @@ class ServerController extends _$ServerController {
 
   Future<void> stop() async {
     if (_server != null) {
-      _server!.stop();
+      await _server!.stop();
       _server = null;
     }
     state = false;
+    ref.read(serverLogsProvider.notifier).clearLogs();
     await _logSubscription?.cancel();
   }
 
@@ -52,16 +53,17 @@ class ServerController extends _$ServerController {
       logsNotifier.addLog("Starting server!");
       state = true;
 
-      _server = await PumpkinServer.newInstance(appDir: directory.path);
-
+      _server ??= await PumpkinServer.newInstance(appDir: directory.path);
       await _server!.start();
 
       state = false;
+      ref.read(serverLogsProvider.notifier).clearLogs();
     } catch (e, st) {
       print(e);
       print(st);
       logsNotifier.addLog("Error: $e");
       state = false;
+      ref.read(serverLogsProvider.notifier).clearLogs();
     }
   }
 }
