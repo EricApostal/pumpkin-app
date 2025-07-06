@@ -36,6 +36,8 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
     final logsAsyncValue = ref.watch(serverLogsProvider);
     final theme = Theme.of(context);
 
+    final serverRunning = ref.watch(serverControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Console"),
@@ -61,16 +63,30 @@ class _ConsoleScreenState extends ConsumerState<ConsoleScreen> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.surface,
+                        backgroundColor: serverRunning
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.surface,
+                        foregroundColor: serverRunning
+                            ? theme.colorScheme.surface
+                            : theme.colorScheme.onSurface,
+                        side: BorderSide(
+                          color: theme.colorScheme.outline,
+                          width: 1,
+                        ),
                       ),
                       onPressed: () async {
                         HapticFeedback.lightImpact();
-                        await ref
-                            .read(serverControllerProvider.notifier)
-                            .start();
+                        if (!serverRunning) {
+                          await ref
+                              .read(serverControllerProvider.notifier)
+                              .start();
+                        } else {
+                          await ref
+                              .read(serverControllerProvider.notifier)
+                              .stop();
+                        }
                       },
-                      child: const Text("Stop Server"),
+                      child: Text("${serverRunning ? "Stop" : "Start"} Server"),
                     ),
                   ),
                   const SizedBox(width: 8),

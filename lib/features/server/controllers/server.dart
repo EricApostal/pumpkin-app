@@ -11,17 +11,26 @@ part 'server.g.dart';
 @Riverpod(keepAlive: true)
 class ServerController extends _$ServerController {
   StreamSubscription<NativeLogMessage>? _logSubscription;
+  PumpkinServer? _server;
 
   @override
-  void build() {}
+  bool build() {
+    return false;
+  }
 
   Future<void> stop() async {
-    await stopServer();
+    if (_server != null) {
+      _server!.stop();
+      _server = null;
+    }
+    state = false;
     await _logSubscription?.cancel();
   }
 
   Future<void> sendCommand(String command) async {
-    await runInConsole(command: command);
+    if (_server != null) {
+      await _server!.runCommand(command: command);
+    }
   }
 
   Future<void> start() async {
@@ -52,11 +61,20 @@ class ServerController extends _$ServerController {
 
       print("Starting server!");
       logsNotifier.addLog("Starting server!");
-      startServer(appDir: directory.path);
+      state = true;
+
+      // Create a new PumpkinServer instance
+      _server = await PumpkinServer.newInstance(appDir: directory.path);
+
+      // Start the server (this will block until server stops)
+      await _server!.start();
+
+      state = false;
     } catch (e, st) {
       print(e);
       print(st);
       logsNotifier.addLog("Error: $e");
+      state = false;
     }
   }
 }

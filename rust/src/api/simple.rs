@@ -1,80 +1,58 @@
-use parking_lot::Mutex;
-use pumpkin::{self, command};
+use pumpkin::{self, command, PumpkinServer as InternalPumpkinServer};
 use std::env;
-use std::sync::{Arc, LazyLock};
-
-static SERVER_INSTANCE: LazyLock<Arc<Mutex<Option<Arc<pumpkin::PumpkinServer>>>>> =
-    LazyLock::new(|| Arc::new(Mutex::new(None)));
+use std::sync::Arc;
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {
     flutter_rust_bridge::setup_default_user_utils();
 }
 
-pub async fn start_server(app_dir: String) {
-    if let Err(e) = env::set_current_dir(&app_dir) {
-        eprintln!("Failed to set current directory: {}", e);
-        return;
-    }
-
-    let pumpkin_server = Arc::new(pumpkin::PumpkinServer::new().await);
-    pumpkin_server.init_plugins().await;
-
-    {
-        let mut server_guard = SERVER_INSTANCE.lock();
-        *server_guard = Some(pumpkin_server.clone());
-    }
-
-    pumpkin_server.start().await;
-
-    {
-        let mut server_guard = SERVER_INSTANCE.lock();
-        *server_guard = None;
-    }
+pub struct PumpkinServer {
+    internal: Arc<InternalPumpkinServer>,
 }
 
-pub fn get_server() -> Option<Arc<pumpkin::PumpkinServer>> {
-    SERVER_INSTANCE.lock().clone()
-}
+impl PumpkinServer {
+    pub async fn new(app_dir: String) -> Result<Self, String> {
+        if let Err(e) = env::set_current_dir(&app_dir) {
+            return Err(format!("Failed to set current directory: {}", e));
+        }
 
-pub fn is_server_running() -> bool {
-    SERVER_INSTANCE.lock().is_some()
-}
+        let internal_server = Arc::new(InternalPumpkinServer::new().await);
+        internal_server.init_plugins().await;
 
-pub async fn run_in_console(command: String) {
-    if let Some(server) = get_server() {
-        let dispatcher = server.server.command_dispatcher.read().await;
+        Ok(Self {
+            internal: internal_server,
+        })
+    }
+
+    pub async fn start(&self) {
+        self.internal.start().await;
+    }
+
+    pub async fn run_command(&self, command: String) -> Result<(), String> {
+        let dispatcher = self.internal.server.command_dispatcher.read().await;
         dispatcher
             .handle_command(
                 &mut command::CommandSender::Console,
-                &server.server,
+                &self.internal.server,
                 &command,
             )
             .await;
+        Ok(())
     }
-}
 
-pub fn stop_server() {
-    pumpkin::stop_server();
-    let mut server_guard = SERVER_INSTANCE.lock();
-    *server_guard = None;
-}
+    pub fn stop(&self) {
+        pumpkin::stop_server();
+    }
 
-pub async fn get_server_info() -> Option<String> {
-    if let Some(server) = get_server() {
-        Some(format!(
+    pub async fn get_info(&self) -> String {
+        format!(
             "Server is running with {} players",
-            server.server.get_all_players().await.len()
-        ))
-    } else {
-        None
+            self.internal.server.get_all_players().await.len()
+        )
     }
-}
 
-pub async fn get_player_count() -> i32 {
-    if let Some(server) = get_server() {
-        server.server.get_all_players().await.len() as i32
-    } else {
-        0
+    pub async fn get_player_count(&self) -> i32 {
+        self.internal.server.get_all_players().await.len() as i32
     }
 }
