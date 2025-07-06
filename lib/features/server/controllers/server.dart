@@ -30,7 +30,7 @@ class ServerController extends _$ServerController {
       "${(await getApplicationDocumentsDirectory()).path}/server",
     );
     await directory.create();
-    final configPath = '${directory.path}/config/features.toml';
+    // final configPath = '${directory.path}/config/features.toml';
 
     final logsNotifier = ref.read(serverLogsProvider.notifier);
 
@@ -41,15 +41,15 @@ class ServerController extends _$ServerController {
     });
 
     try {
-      TomlDocument document = await TomlDocument.load(configPath);
+      // TomlDocument document = await TomlDocument.load(configPath);
 
-      final config = document.toMap();
+      // final config = document.toMap();
 
-      config["networking"]["rcon"]["enabled"] = true;
-      config["networking"]["rcon"]["password"] = "pumpkin";
-      TomlDocument newDocument = TomlDocument.fromMap(config);
-      final file = File(configPath);
-      await file.writeAsString(newDocument.toString());
+      // config["networking"]["rcon"]["enabled"] = true;
+      // config["networking"]["rcon"]["password"] = "pumpkin";
+      // TomlDocument newDocument = TomlDocument.fromMap(config);
+      // final file = File(configPath);
+      // await file.writeAsString(newDocument.toString());
 
       print("Starting server!");
       logsNotifier.addLog("Starting server!");

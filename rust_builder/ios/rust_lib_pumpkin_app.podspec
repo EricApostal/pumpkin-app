@@ -1,4 +1,4 @@
-#
+# platform :ios, '13.0'
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
 # Run `pod lib lint rust_lib_pumpkin_app.podspec` to validate before publishing.
 #
